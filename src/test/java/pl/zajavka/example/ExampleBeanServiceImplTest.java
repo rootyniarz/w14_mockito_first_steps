@@ -11,7 +11,12 @@ class ExampleBeanServiceImplTest {
     void sampleMethod() {
         //given
         ExampleBeanService exampleBeanService = new ExampleBeanServiceImpl();
-        exampleBeanService.setInjectedBeanService(new StubInjectedBeanService());
+        exampleBeanService.setInjectedBeanService(new InjectedBeanService() {
+            @Override
+            public boolean anotherSampleMethod() {
+                return true;
+            }
+        });
 
         //when
         boolean result = exampleBeanService.sampleMethod();
