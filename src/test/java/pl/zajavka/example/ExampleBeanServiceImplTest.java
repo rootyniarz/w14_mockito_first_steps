@@ -9,8 +9,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @ExtendWith(MockitoExtension.class)
 class ExampleBeanServiceImplTest {
 
@@ -23,11 +21,16 @@ class ExampleBeanServiceImplTest {
     @Test
     void sampleMethod() {
         //given
-        Mockito.when(injectedBeanService.anotherSampleMethod(ArgumentMatchers.any()))
-                .thenThrow(new RuntimeException("my exception"));
+        Mockito
+                .doReturn("some value")
+                .when(injectedBeanService)
+                .anotherSampleMethod(ArgumentMatchers.anyString());
+
+        //when
+        String result = exampleBeanService.sampleMethod("");
 
         //then
-        Assertions.assertThrows(RuntimeException.class, () -> exampleBeanService.sampleMethod(""));
+        Assertions.assertEquals("some value",result);
     }
 
 
