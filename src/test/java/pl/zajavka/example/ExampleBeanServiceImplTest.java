@@ -3,11 +3,16 @@ package pl.zajavka.example;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.stream.Stream;
 
 @ExtendWith(MockitoExtension.class)
 class ExampleBeanServiceImplTest {
@@ -18,11 +23,12 @@ class ExampleBeanServiceImplTest {
     @Mock
     private InjectedBeanService injectedBeanService;
 
-    @Test
-    void sampleMethod() {
+    @ParameterizedTest
+    @MethodSource
+    void sampleMethod(String val1, String val2) {
         //given
-        Mockito.when(injectedBeanService.someOtherMethod()).thenReturn("val1");
-        Mockito.when(injectedBeanService.anotherSampleMethod()).thenReturn("val2");
+        Mockito.when(injectedBeanService.someOtherMethod()).thenReturn(val1);
+        Mockito.when(injectedBeanService.anotherSampleMethod()).thenReturn(val2);
 
         //when
         String result = exampleBeanService.sampleMethod();
@@ -33,6 +39,14 @@ class ExampleBeanServiceImplTest {
         Mockito.verify(injectedBeanService,Mockito.times(1)).someOtherMethod();
         Mockito.verify(injectedBeanService,Mockito.times(1)).anotherSampleMethod();
 
+    }
+
+    static Stream<Arguments> sampleMethod(){
+        return Stream.of(
+                Arguments.of("val1","val2"),
+                Arguments.of("val3","val4"),
+                Arguments.of("val5","val6")
+        );
     }
 
 
