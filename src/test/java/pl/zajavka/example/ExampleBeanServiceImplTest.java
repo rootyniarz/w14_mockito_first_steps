@@ -23,13 +23,11 @@ class ExampleBeanServiceImplTest {
     @Test
     void sampleMethod() {
         //given
-        Mockito.when(injectedBeanService.anotherSampleMethod(ArgumentMatchers.any())).thenReturn("my value");
-
-        //when
-        String result = exampleBeanService.sampleMethod("something");
+        Mockito.when(injectedBeanService.anotherSampleMethod(ArgumentMatchers.any()))
+                .thenThrow(new RuntimeException("my exception"));
 
         //then
-        Assertions.assertEquals("my value",result);
+        Assertions.assertThrows(RuntimeException.class, () -> exampleBeanService.sampleMethod(""));
     }
 
 
