@@ -1,5 +1,9 @@
 package pl.zajavka.example;
 
 public interface InjectedBeanService {
-    public String anotherSampleMethod(String someStringValue);
+    String anotherSampleMethod();
+
+    String someOtherMethod();
+
+
 }

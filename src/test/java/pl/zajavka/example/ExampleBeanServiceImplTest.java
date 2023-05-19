@@ -21,16 +21,18 @@ class ExampleBeanServiceImplTest {
     @Test
     void sampleMethod() {
         //given
-        Mockito
-                .doReturn("some value")
-                .when(injectedBeanService)
-                .anotherSampleMethod(ArgumentMatchers.anyString());
+        Mockito.when(injectedBeanService.someOtherMethod()).thenReturn("val1");
+        Mockito.when(injectedBeanService.anotherSampleMethod()).thenReturn("val2");
 
         //when
-        String result = exampleBeanService.sampleMethod("");
+        String result = exampleBeanService.sampleMethod();
 
         //then
-        Assertions.assertEquals("some value",result);
+        Assertions.assertEquals("val1val2",result);
+
+        Mockito.verify(injectedBeanService,Mockito.times(1)).someOtherMethod();
+        Mockito.verify(injectedBeanService,Mockito.times(1)).anotherSampleMethod();
+
     }
 
 
