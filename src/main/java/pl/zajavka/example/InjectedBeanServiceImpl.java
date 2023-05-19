@@ -1,8 +1,8 @@
 package pl.zajavka.example;
 
-public class InjectedBeanServiceImpl implements InjectedBeanService{
+public class InjectedBeanServiceImpl implements InjectedBeanService {
     @Override
-    public boolean anotherSampleMethod() {
-        return false;
+    public String anotherSampleMethod(String someValue) {
+        return "my value " + someValue;
     }
 }

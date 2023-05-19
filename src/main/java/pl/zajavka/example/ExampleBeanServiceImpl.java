@@ -10,7 +10,7 @@ public class ExampleBeanServiceImpl implements ExampleBeanService {
     }
 
     @Override
-    public boolean sampleMethod() {
-        return injectedBeanService.anotherSampleMethod();
+    public String sampleMethod(String someValue) {
+        return injectedBeanService.anotherSampleMethod(someValue);
     }
 }
