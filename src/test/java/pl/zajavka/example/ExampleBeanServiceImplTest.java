@@ -1,6 +1,7 @@
 package pl.zajavka.example;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -17,11 +18,18 @@ import java.util.stream.Stream;
 @ExtendWith(MockitoExtension.class)
 class ExampleBeanServiceImplTest {
 
-    @InjectMocks
+//    @InjectMocks
     private ExampleBeanServiceImpl exampleBeanService;
 
-    @Mock
+//    @Mock
     private InjectedBeanService injectedBeanService;
+
+    @BeforeEach
+    void init(){
+        this.injectedBeanService = Mockito.mock(InjectedBeanService.class);
+        this.exampleBeanService = new ExampleBeanServiceImpl();
+        this.exampleBeanService.setInjectedBeanService(injectedBeanService);
+    }
 
     @ParameterizedTest
     @MethodSource
