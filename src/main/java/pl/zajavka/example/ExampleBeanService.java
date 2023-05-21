@@ -1,6 +1,5 @@
 package pl.zajavka.example;
 
 public interface ExampleBeanService {
-    void setInjectedBeanService(InjectedBeanService injectedBeanService);
-    String sampleMethod();
+    void sampleMethod(String... valuesToAdd);
 }

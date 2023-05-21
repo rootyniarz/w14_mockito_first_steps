@@ -1,61 +1,58 @@
 package pl.zajavka.example;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class ExampleBeanServiceImplTest {
 
-//    @InjectMocks
+    @InjectMocks
     private ExampleBeanServiceImpl exampleBeanService;
 
-//    @Mock
-    private InjectedBeanService injectedBeanService;
+    @Spy
+    private List<String> sampleList = new ArrayList<>();
 
-    @BeforeEach
-    void init(){
-        this.injectedBeanService = Mockito.mock(InjectedBeanService.class);
-        this.exampleBeanService = new ExampleBeanServiceImpl();
-        this.exampleBeanService.setInjectedBeanService(injectedBeanService);
-    }
-
-    @ParameterizedTest
-    @MethodSource
-    void sampleMethod(String val1, String val2) {
+    @Test
+    void thatSampleMethod_whenOneValueToAdd(){
         //given
-        Mockito.when(injectedBeanService.someOtherMethod()).thenReturn(val1);
-        Mockito.when(injectedBeanService.anotherSampleMethod()).thenReturn(val2);
+        String testValue="testValue";
 
         //when
-        String result = exampleBeanService.sampleMethod();
+        exampleBeanService.sampleMethod(testValue);
 
         //then
-        Assertions.assertEquals("val1val2",result);
-
-        Mockito.verify(injectedBeanService,Mockito.times(1)).someOtherMethod();
-        Mockito.verify(injectedBeanService,Mockito.times(1)).anotherSampleMethod();
-
+        Mockito.verify(sampleList).add(Mockito.anyString()); //sprawadzamy czy został przekazany jakikolwiek String
+        Mockito.verify(sampleList).add(testValue); // sprawdzamy czy została przekazana dokłądnie ta wartosc
+        Assertions.assertEquals(1,sampleList.size()); //czy do listy zostł dodny 1 pozycja
     }
 
-    static Stream<Arguments> sampleMethod(){
-        return Stream.of(
-                Arguments.of("val1","val2"),
-                Arguments.of("val3","val4"),
-                Arguments.of("val5","val6")
-        );
+    @Test
+    void thatSampleMethod_whenTwoValuesToAdd(){
+        //given
+        String testValue1="testValue1";
+        String testValue2="testValue2";
+
+        //when
+        exampleBeanService.sampleMethod(testValue1,testValue2);
+
+        //then 6:50 film #11 Mockowanie - Mockito - Spy
+        Mockito.verify(sampleList, Mockito.times(2)).add(Mockito.anyString()); //sprawadzamy czy został przekazany jakikolwiek String oraz czy spy został wywołany x2
+        Mockito.verify(sampleList).add(testValue1); // sprawdzamy czy została przekazana dokłądnie ta wartosc
+        Mockito.verify(sampleList).add(testValue2); // sprawdzamy czy została przekazana dokłądnie ta wartosc
+        Assertions.assertEquals(2,sampleList.size()); //czy do listy zostły dodne 2 pozycje
     }
 
 
 }
+
+
+
+
